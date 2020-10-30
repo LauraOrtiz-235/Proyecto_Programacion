@@ -1,0 +1,21 @@
+class Preguntas:
+
+    #def __init__(self):
+       
+    def Preguntas_nivel(self,preguntas):
+        count_correctas = 0
+        for key,value in preguntas.items():
+            print(key,' ')
+            x = 0
+            for res,index in value.items():
+                print (res)
+                if index == 1:
+                    x = res.split('.')[0]
+            a = input("Ingrese la opcion: ")
+            if a == x:
+                count_correctas += 1
+        pasar = (len(preguntas)//2) + 1
+        if count_correctas >= pasar:
+            return True
+        else:
+            return False
