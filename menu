@@ -4,47 +4,94 @@ import sys
 
 pygame.init()
 
+#Pantalla
 W,H = 1000,800
 screen = pygame.display.set_mode((W,H))
 
-#fondo = pygame.image.load("fondo.jpg")
+#colores
+bright_blue = (125, 165, 240)
+blue_button = (125, 185, 240)
+blue_fondo = (140, 215, 250)
+blue_text = (90, 125, 190)
 
+#fondo = pygame.image.load("fondo.jpg") ----> Un fondo mas adelante
+
+#Nombre del juego desde la pantalla de inicio 
 pygame.display.set_caption("Macctematicas")
 
+#Fuentes
 font_1 = pygame.font.SysFont("comicsansms", 72)
-font_2 = pygame.font.SysFont("comicsansms", 20)
+font_3 = pygame.font.SysFont("comicsansms", 50)
 
+
+#Para escribir el texto
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
     textrect = textobj.get_rect()
     textrect.topleft = (x,y)
     surface.blit(textobj, textrect)
 
+#Botones creacion
+def button(msg,x,y,w,h,c,bc, action=None):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
 
-click= False
 
+    button_1 = pygame.Rect(x, y, w, h)
+    button_2 = pygame.Rect(x, y, w, h)
+
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(screen, bc, button_1)
+        if click[0] == 1 and action != None:
+            if action == "play": #si cumple esa accion nos dirije al juego
+                game_loop()
+            elif action == "quit": #si no se sale
+                pygame.quit()
+                quit()
+    else:
+        pygame.draw.rect(screen, c, button_1)
+
+    font_2 = pygame.font.SysFont("comicsansms", 30)
+    draw_text(msg, font_2, blue_text, screen, x, y)
+
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(screen, bc, button_2)
+        if click[0] == 1 and action != None:
+            if action == "dificult":
+                dificultad()
+            elif action == "quit":
+                pygame.quit()
+                quit()
+    else:
+        pygame.draw.rect(screen, c, button_2)
+
+    font_2 = pygame.font.SysFont("comicsansms", 30)
+    draw_text(msg, font_2, blue_text, screen, x, y)
+
+    Op_a = pygame.Rect(x, y, w, h) #los botones para las opciones
+    Op_b = pygame.Rect(x, y, w, h)
+    Op_c = pygame.Rect(x, y, w, h)
+
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(screen, bc, button_1)
+        if click[0] == 1 and action != None:
+            if action == 1: #definir que eligio la opcion correcta
+                game_loop()
+                print("paso")
+            elif action == 0: #opcion incorrecta
+                print("no paso")
+                
+
+#Menu
 def main_menu():
     while True:
         #screen.blit(fondo,(0,0))
-        screen.fill((140, 215, 250))
-        draw_text("Macctematicas", font_1, (90, 125, 190), screen, 250, 200)
-        
-        mx, my = pygame.mouse.get_pos()
+        screen.fill(blue_fondo)
+        draw_text("Macctematicas", font_1, blue_text, screen, 250, 200)
 
-        button_1 = pygame.Rect(400,400, 200, 50)
-        draw_text("Play", font_2, (90, 125, 190), screen, 400, 400)
-        button_2 = pygame.Rect(400,500, 200, 50)
-        draw_text("Difficulties", font_2, (90, 125, 190), screen, 400, 500)
-        if button_1.collidepoint((mx, my)):
-            if click:
-                pass
-        if button_2.collidepoint((mx, my)):
-            if click:
-                pass
-        pygame.draw.rect(screen, (125, 185, 240), button_1)
-        pygame.draw.rect(screen, (125, 185, 240), button_2)
+        button("Start",400,400,200,50,blue_button,bright_blue,"play")
+        button("Difficulties",400,500,200,50,blue_button,bright_blue,"dificult")
 
-        click = False
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -53,64 +100,21 @@ def main_menu():
                 if event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-            if event.type == MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
-
+       
         pygame.display.update()
 
 
-def game():
-    running = True
-    while running:
-        screen.fill((140, 215, 250))
-        draw_text("Jugando", font_2, (90, 125, 190), screen, 20, 20)
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    running = False
+#Menu de dificultades ----> se implementaran mas adelante por el momento no hay 
+def dificultad():
+     while True:
+        #screen.blit(fondo,(0,0))
+        screen.fill(blue_fondo)
+        draw_text("Difficulties", font_1, blue_text, screen, 300, 200)
 
-        pygame.display.update()
+        button("Easy",400,400,200,50,blue_button,bright_blue,"easy")
+        button("Medium",400,480,200,50,blue_button,bright_blue,"medium")
+        button("Hard",400,560,200,50,blue_button,bright_blue,"hard")
 
-
-def difficulties():
-    running = True
-    while running:
-        screen.fill((140, 215, 250))
-        draw_text("Difficulties", font_1, (90, 125, 190), screen, 250, 200)
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    running = False
-
-        mx, my = pygame.mouse.get_pos()
-
-        button_1 = pygame.Rect(400,400, 200, 50)
-        draw_text("Easy", font_2, (90, 125, 190), screen, 400, 400)
-        button_2 = pygame.Rect(400,500, 200, 50)
-        draw_text("Medium", font_2, (90, 125, 190), screen, 400, 500)
-        button_3 = pygame.Rect(400,500, 200, 50)
-        draw_text("Hard", font_2, (90, 125, 190), screen, 400, 600)
-        if button_1.collidepoint((mx, my)):
-            if click:
-                pass
-        if button_2.collidepoint((mx, my)):
-            if click:
-                pass
-        if button_3.collidepoint((mx, my)):
-            if click:
-                pass
-        pygame.draw.rect(screen, (125, 185, 240), button_1)
-        pygame.draw.rect(screen, (125, 185, 240), button_2)
-        pygame.draw.rect(screen, (125, 185, 240), button_3)
-
-        click = False
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -119,9 +123,29 @@ def difficulties():
                 if event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-            if event.type == MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
+       
+        pygame.display.update()
+
+
+#Empezar juego...
+#Falta su interfaz grafica para luego unirlo
+def game_loop():
+    running = True
+    while running:
+        screen.fill(blue_fondo)
+        draw_text("Pregunta 1:", font_3, blue_text, screen, 50, 20)
+
+        button("a.",200,400,200,50,blue_button,bright_blue,0)
+        button("b.",600,400,200,50,blue_button,bright_blue,1)
+        button("c.",400,500,200,50,blue_button,bright_blue,0)
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
 
         pygame.display.update()
 
