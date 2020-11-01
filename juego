@@ -34,8 +34,8 @@ preguntas_nivel3 = {"Cuanto es 54+30?" :{"a.84":1, "b.74":0, "c.93":0}, "Cuanto 
 
 
 res_n1 = random.sample(list(preguntas_nivel1.items()),k=5) 
-res_n2 = random.sample(list(preguntas_nivel2.items()),k=10)
-res_n3 = random.sample(list(preguntas_nivel2.items()),k=15)
+res_n2 = random.sample(list(preguntas_nivel2.items()),k=8)
+res_n3 = random.sample(list(preguntas_nivel2.items()),k=10)
 
 p1 = p.Preguntas()
 
