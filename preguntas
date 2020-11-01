@@ -1,9 +1,7 @@
 class Preguntas:
 
-    #def __init__(self):
-       
     def Preguntas_nivel(self,preguntas):
-        count_correctas = 0
+        count_correctas = 0 #contador de las correctas
         for key,value in preguntas.items():
             print(key,' ')
             x = 0
@@ -14,8 +12,8 @@ class Preguntas:
             a = input("Ingrese la opcion: ")
             if a == x:
                 count_correctas += 1
-        pasar = (len(preguntas)//2) + 1
-        if count_correctas >= pasar:
+        pasar = (len(preguntas)//2) + 1 #definicion de si pasa
+        if count_correctas >= pasar: #si el numero de correctas es mayor pasara al siguiente nivel
             return True
         else:
             return False
