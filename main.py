@@ -13,7 +13,7 @@ def main():
     pygame.display.set_caption("Macctematicas")
     # Bucle hasta que el usiario oprima el boton de cerrar la ventana
     done = False
-    # Se usa para manejar uqe tan rápido de actializa la pantalla
+    # Se usa para manejar que tan rápido se actializa la pantalla
     clock = pygame.time.Clock()
     # Se crea el objeto game
     game = Game()
