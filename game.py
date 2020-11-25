@@ -4,7 +4,7 @@ from menu import Menu
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 
-# Colores definidos
+# Colors
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 GREEN = (50,230,70)
@@ -29,8 +29,8 @@ class Game(object):
         self.button_list = self.get_button_list()
         self.reset_problem = False
         # Crear menu
-        items = ("Easy","Medium","Hard")
-        self.menu = Menu(items,ttf_font="Fonts_items.TTF",font_size=50)
+        items = ("Easy","Medium","Hard","Presented")
+        self.menu = Menu(items,ttf_font="Kenvector.TTF",font_size=30)
         # True: muestra el menu
         self.show_menu = True
         # Crear el contador del puntaje
@@ -260,9 +260,9 @@ class Game(object):
         elif self.level == 3:
             self.hard_level()
         self.button_list = self.get_button_list()
+        
 
-
-    def process_events(self):
+    def process_events(self,screen):
         for event in pygame.event.get():  # El jugador hizo algo
             if event.type == pygame.QUIT: # Si el juagdor oprime cerrar
                 return True
@@ -287,6 +287,14 @@ class Game(object):
                         self.set_problem()
                         self.life = 200
                         self.show_menu = False
+                    elif self.menu.state == 3:
+                        screen.blit(self.background_image,(0,0))
+                        msg = "Presentado por:"
+                        msg1 = "Camila, Mariana y Laura"
+                        self.display_message(screen,(msg,msg1))
+                        pygame.display.flip()
+                        self.show_menu = True
+                        pygame.time.wait(7000)
 
                 # Se va a la funcioón: check_result para revisar si el jugador respondió correctamente
                 else:
@@ -366,7 +374,7 @@ class Game(object):
             score_label = self.score_font.render("Score: "+str(self.score),True,BLACK)
             screen.blit(score_label,(10,320))
             life_label = self.life_font.render("Covid: "+str(self.life),True,BLACK)
-            screen.blit(life_label,(480,320))
+            screen.blit(life_label,(470,320))
 
         #Actualizar la pantalla con lo que se a dibujado
         pygame.display.flip()
