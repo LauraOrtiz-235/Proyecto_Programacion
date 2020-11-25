@@ -10,7 +10,7 @@ class Menu(object):
         self.select_color = select_color
         self.items = items
         self.font = pygame.font.Font(ttf_font,font_size)
-        # Se genera la lista que contiene para recuadros de cada item.
+        # Se genera la lista que contiene los recuadros de cada item.
         self.rect_list = self.get_rect_list(items)
 
 
@@ -27,14 +27,16 @@ class Menu(object):
             # t_h: altura total del bloque de texto
             t_h = len(items) * height
             posY = (SCREEN_HEIGHT /2) - (t_h /2) + (index * height)
-            # Se crean los recuadros
+            # Se crean los recuadros (Rect-rectángulos)
             rect = pygame.Rect(posX,posY,width,height)
             # Se agregan los recuadros a la lista
             rect_list.append(rect)
 
         return rect_list
 
-    # Los collide_points guarda donde se encuentra el mouse
+
+    #Collide_points guarda donde se encuentra el mouse
+    #si esta dentro de los recuadros (Rect-rectángulos)
     def collide_points(self):
         index = -1
         mouse_pos = pygame.mouse.get_pos()
