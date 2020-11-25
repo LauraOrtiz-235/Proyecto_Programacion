@@ -372,15 +372,15 @@ class Game(object):
         # --- Esto es para que el juego espere unos segundos antes de
         # --- mostrar lo que se dibujó andtes de cambiar de cuadro
         if self.reset_problem:
-            # Esperar 2 segundo
+            # Esperar 3 segundos
             pygame.time.wait(3000)
             self.set_problem()
             # Aumentar count por 1
             self.count += 1
             self.reset_problem = False
         elif time_wait:
-            # Esperar tres segundos
-            pygame.time.wait(10000)
+            # Esperar ocho segundos
+            pygame.time.wait(8000)
 
 
 class Button(object):
