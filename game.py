@@ -4,7 +4,7 @@ from menu import Menu
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 
-# Colors
+# Colores definidos
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 GREEN = (50,230,70)
