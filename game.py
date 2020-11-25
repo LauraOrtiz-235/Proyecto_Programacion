@@ -14,7 +14,7 @@ class Game(object):
     def __init__(self):
         # Crear nuevo objeto: fuente
         self.font = pygame.font.Font(None,60)
-        self.font_1 = pygame.font.Font("Triforce.TTF",40)
+        self.font_1 = pygame.font.Font("Triforce.TTF",35)
         # Crear la fuente para el mensaje de la puntuación final
         self.score_font = pygame.font.Font("Kenvector.TTF",25)
         # Crear la fuente de letra para el mensaje de la vida del covid
@@ -42,13 +42,14 @@ class Game(object):
         # Cargar la imagen de fondo
         self.background_image = pygame.image.load("fondo_game.jpg").convert()
         # Cargar los efectos de sonido
-        self.sound_1 = pygame.mixer.Sound("item1.ogg")
-        self.sound_2 = pygame.mixer.Sound("item2.ogg")
+        self.sound_1 = pygame.mixer.Sound("correcto.ogg")
+        self.sound_2 = pygame.mixer.Sound("incorrecto.ogg")
         # Crear la variable donde depende el nivel 
         self.level = 0
 
+        
     def get_button_list(self):
-        """ Return a list with four buttons """
+        """ Devuelve una lista de los cuatro botones """
         button_list = []
         # Asignar uno de los botones como la respuesta correcta
         choice = random.randint(1,4)
@@ -59,6 +60,7 @@ class Game(object):
         t_w = width * 2 + 50
         posX = (SCREEN_WIDTH / 2) - (t_w /2)
         posY = 200
+        
         if choice == 1:
             btn = Button(posX,posY,width,height,self.problem["result"])
             button_list.append(btn)
@@ -77,7 +79,6 @@ class Game(object):
 
         posX = (SCREEN_WIDTH / 2) - (t_w /2)
         posY = 300
-
 
         if choice == 3:
             btn = Button(posX,posY,width,height,self.problem["result"])
@@ -99,7 +100,7 @@ class Game(object):
 
 
     def get_symbols(self):
-        """ Return a dictionary with all the operation symbols """
+        """ Retornar un diccionario con los símbolos de operación """
         symbols = {}
         sprite_sheet = pygame.image.load("symbols.png").convert()
         image = self.get_image(sprite_sheet,0,0,64,64)
@@ -113,8 +114,9 @@ class Game(object):
 
         return symbols
 
+    
     def get_image(self,sprite_sheet,x,y,width,height):
-        """ This method will cut an image and return it """
+        """ Este método cota las imagenes y las devuleve """
         # Crear una imagen en blanco
         image = pygame.Surface([width,height]).convert()
         # Copiar el sprite de un hoja mñas grande a una más pequeña
@@ -124,7 +126,7 @@ class Game(object):
 
 
     def easy_level(self):
-        """ These will set num1,num2,result for addition """
+        """ Establece num1,num2 y el resultado para el nivel 1 """
         ops = random.randint(1,2)
         a = random.randint(0,100)
         b = random.randint(0,100)
@@ -148,7 +150,7 @@ class Game(object):
 
 
     def medium_level(self):
-        """ These will set num1,num2,result for subtraction """
+        """ Establece num1,num2 y el resultado para el nivel 2 """
         ops = random.randint(1,6)
         a = random.randint(0,100)
         b = random.randint(0,100)
@@ -179,7 +181,7 @@ class Game(object):
 
 
     def hard_level(self):
-        """ These will set num1,num2,result for multiplication """
+        """ Establece num1,num2 y el resultado para el nivel 1 """
         ops = random.randint(1,8)
         a = random.randint(0,100)
         b = random.randint(0,100)
@@ -218,9 +220,8 @@ class Game(object):
             self.operation = "division"
 
 
-
     def check_result(self):
-        """ Check the result """
+        """ Se revisa el resultado que escoge el jugador """
         for button in self.button_list:
             if button.isPressed():
                 if button.get_number() == self.problem["result"]:
@@ -229,15 +230,16 @@ class Game(object):
                     # Incrementar el puntaje
                     self.score += 5
                     # Baja vida de Covid
-                    self.life -= 10
-                    # Reproducir efecto de sonido
+                    if self.life <= 200:
+                        self.life -= 10
+                    # Reproducir efecto de sonido de un spray cuando es correcto
                     self.sound_1.play()
                 else:
                     # Establecer color rojo cuando se escoje la respuesta incorrecta
                     button.set_color(RED)
                     # Aumenta la vida del covid
                     self.life += 5
-                    # Reproducir efecto de sonido2
+                    # Reproducir sonido2 de tos (hacer referencia al covid) cuando es incorrecto
                     self.sound_2.play()
                 # Establecer reset_problem True para que pase al siguente problema
                 # Se usa reset_problem en display_frame para esperar un segundo
@@ -245,7 +247,7 @@ class Game(object):
 
 
     def set_problem(self):
-        """ hacer otro problema nuevamente """
+        """ Hace otro problema nuevo """
         if self.level == 1:
             self.easy_level()
 
@@ -268,16 +270,19 @@ class Game(object):
                         self.set_problem()
                         #Se comienza en 12 para que solo se hagan 8 preguntas en nivel 1
                         self.count = 12
+                        self.life = 100
                         self.show_menu = False
                     elif self.menu.state == 1:
                         self.level = 2
                         self.set_problem()
                         #Se comienza en 8 para que solo se hagan 12 preguntas en nivel 2
                         self.count = 8
+                        self.life = 120
                         self.show_menu = False
                     elif self.menu.state == 2:
                         self.level = 3
                         self.set_problem()
+                        self.life = 200
                         self.show_menu = False
 
                 # Se va a la funcioón: check_result para revisar
@@ -294,13 +299,14 @@ class Game(object):
 
         return False
 
+    
     def run_logic(self):
         # Actualizar menu
         self.menu.update()
 
 
     def display_message(self,screen,items):
-        """ mostrar cada cadena que esta dentro de la tupla(args) """
+        """ Muestra cada cadena que esta dentro de la tupla(args) """
         for index, message in enumerate(items):
             label = self.font_1.render(message,True,BLACK)
             # Obtener el ancho y alto de la etiqueta que se utiliza para mostrar el texto
@@ -327,7 +333,7 @@ class Game(object):
             # Si self.count llega a 20 significa que se acaba el nivel y el juego
             # Se muestra cuantas respuestas fueron correctas y el puntaje
 
-            msg_1 = "Tu respondiste " + str(round(self.score / 5)) + " correctamente"
+            msg_1 = "Respondiste " + str(round(self.score / 5)) + " correctamente"
             if self.life <= 40:
                 msg_2 = "Victoria! venciste al Covid"
                 self.display_message(screen,(msg_1,msg_2))
@@ -366,8 +372,8 @@ class Game(object):
         # --- Esto es para que el juego espere unos segundos antes de
         # --- mostrar lo que se dibujó andtes de cambiar de cuadro
         if self.reset_problem:
-            # Esperar 1 segundo
-            pygame.time.wait(1000)
+            # Esperar 2 segundo
+            pygame.time.wait(3000)
             self.set_problem()
             # Aumentar count por 1
             self.count += 1
