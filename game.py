@@ -381,8 +381,8 @@ class Game(object):
         #Esto es para que el juego espere unos segundos antes de
         #mostrar lo que se dibujó antes de cambiar de cuadro
         if self.reset_problem:
-            # Esperar 3 segundos por cada pregunta
-            pygame.time.wait(3000)
+            # Esperar 2 segundos por cada pregunta
+            pygame.time.wait(2000)
             self.set_problem()
             # Aumentar count por 1 cuando se pasa de una pregunta a otra
             self.count += 1
