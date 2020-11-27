@@ -271,8 +271,8 @@ class Game(object):
                     if self.menu.state == 0:
                         self.level = 1
                         self.set_problem()
-                        #Se comienza en 12 para que solo se hagan 8 preguntas en nivel 1
-                        self.count = 12
+                        #Se comienza en 10 para que solo se hagan 10 preguntas en nivel 1
+                        self.count = 10
                         self.life = 100
                         self.show_menu = False
                     elif self.menu.state == 1:
@@ -293,8 +293,8 @@ class Game(object):
                         msg1 = "Camila, Mariana y Laura"
                         self.display_message(screen,(msg,msg1))
                         pygame.display.flip()
+                        pygame.time.wait(6000)
                         self.show_menu = True
-                        pygame.time.wait(7000)
 
                 # Se va a la funcioón: check_result para revisar si el jugador respondió correctamente
                 else:
@@ -433,3 +433,4 @@ class Button(object):
 
     def get_number(self):
         return self.number
+
