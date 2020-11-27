@@ -20,7 +20,7 @@ def main():
     # Bucle Principal del Programa 
     while not done:
         # Se procesan los eventos (pulsaciones de tecla, clicks,etc)
-        done = game.process_events()
+        done = game.process_events(screen)
         # Lógica del juego
         game.run_logic()
         # Se dibuja los recuadros de la pantalla
@@ -33,3 +33,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
