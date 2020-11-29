@@ -15,7 +15,7 @@ class Game(object):
         # Crear nuevo objeto: fuente
         self.font = pygame.font.Font(None,60)
         # Crear la fuente para el mensaje de la puntuación final
-        self.font_1 = pygame.font.Font("Triforce.TTF",35)
+        self.font_1 = pygame.font.Font("Triforce.TTF",28)
         # Crear la fuente de letra para el mensaje del score
         self.score_font = pygame.font.Font("Kenvector.TTF",25)
         # Crear la fuente de letra para el mensaje de la vida del covid
@@ -347,7 +347,7 @@ class Game(object):
                 msg_2 = "Victoria! venciste al Covid"
                 self.display_message(screen,(msg_1,msg_2))
             else:
-                msg_3 = "Animo.. la proxima lo vences!"
+                msg_3 = "Game Over :c, la proxima lo vences!"
                 self.display_message(screen,(msg_1,msg_3))
             self.show_menu = True
             # Restablecer el puntaje, la vida del covid y en contador para las preguntas
@@ -433,4 +433,5 @@ class Button(object):
 
     def get_number(self):
         return self.number
+
 
